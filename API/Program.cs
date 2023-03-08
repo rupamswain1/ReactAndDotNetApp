@@ -33,11 +33,15 @@ var services = scope.ServiceProvider;
 
 try
 {
+    var context = services.GetRequiredService<DataContext>();
+    context.Database.MigrateAsync();
+    await Seed.SeedData(context);
 
 }
 catch (Exception ex)
 {
-
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An Error occured in migration");
 }
 
 app.Run();
