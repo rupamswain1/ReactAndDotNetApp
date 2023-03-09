@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {}
+    "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {}
   },
   "projects": {
     "D:\\Development\\ReactAndDotNetApp\\Domain\\Domain.csproj": {
@@ -59,14 +59,14 @@
         }
       }
     },
-    "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
+    "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
+        "projectPath": "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
         "packagesPath": "C:\\Users\\rupam\\.nuget\\packages\\",
-        "outputPath": "D:\\Development\\ReactAndDotNetApp\\Persistence\\obj\\",
+        "outputPath": "d:\\Development\\ReactAndDotNetApp\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rupam\\AppData\\Roaming\\NuGet\\NuGet.Config",
