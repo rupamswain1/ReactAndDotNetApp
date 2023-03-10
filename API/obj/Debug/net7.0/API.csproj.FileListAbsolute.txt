@@ -76,3 +76,5 @@ D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\System.CodeDom.dll
 D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\MediatR.dll
 D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\MediatR.Contracts.dll
 D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\AutoMapper.dll
+D:\Development\ReactAndDotNetApp\API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

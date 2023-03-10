@@ -1,14 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "BfI5VG4hDxHhQJh1GFpKARGAkaT5RkiYZoBIYhT2tI9Yylf9mhvcMjTZrumedmhJANA/rQoVvdCq4PpRKGxQzA==",
+  "dgSpecHash": "Lu4WgusuSFP6MctCTdqUANruz+Nme867F9phGlqD0hiLS3jlOq5vwRkzrpAC52ZlcCBBLrqaZx+kiNEr/e+4vA==",
   "success": true,
   "projectFilePath": "D:\\Development\\ReactAndDotNetApp\\API\\API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\rupam\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\rupam\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.1.0\\mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.3\\microsoft.aspnetcore.openapi.7.0.3.nupkg.sha512",
+    "C:\\Users\\rupam\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.3\\microsoft.data.sqlite.core.7.0.3.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",
     "C:\\Users\\rupam\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",

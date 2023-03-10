@@ -109,8 +109,8 @@
               "D:\\Development\\ReactAndDotNetApp\\Domain\\Domain.csproj": {
                 "projectPath": "D:\\Development\\ReactAndDotNetApp\\Domain\\Domain.csproj"
               },
-              "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
-                "projectPath": "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj"
+              "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
+                "projectPath": "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -125,6 +125,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[11.1.0, )"
@@ -205,14 +209,14 @@
         }
       }
     },
-    "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
+    "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "d:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
+        "projectPath": "D:\\Development\\ReactAndDotNetApp\\Persistence\\Persistence.csproj",
         "packagesPath": "C:\\Users\\rupam\\.nuget\\packages\\",
-        "outputPath": "d:\\Development\\ReactAndDotNetApp\\Persistence\\obj\\",
+        "outputPath": "D:\\Development\\ReactAndDotNetApp\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rupam\\AppData\\Roaming\\NuGet\\NuGet.Config",
