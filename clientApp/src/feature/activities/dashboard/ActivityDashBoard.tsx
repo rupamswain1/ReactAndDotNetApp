@@ -7,9 +7,15 @@ import ActivityDetails from './ActivityDetails';
 
 interface Props {
   activities: Activity[];
+  createFormDisplay: boolean;
+  setCreateFormDisplay: any;
 }
 
-const ActivityDashBoard = ({ activities }: Props) => {
+const ActivityDashBoard = ({
+  activities,
+  createFormDisplay,
+  setCreateFormDisplay,
+}: Props) => {
   const [activityId, setActivityId] = useState('');
   const [editForm, setEditForm] = useState<string>('');
   const handleEditMode = (id: string) => {
@@ -23,12 +29,21 @@ const ActivityDashBoard = ({ activities }: Props) => {
       </Grid.Column>
       <Grid.Column width="6">
         {activityId && (
-          <ActivityDetails activityId={activityId} editMode={handleEditMode} />
+          <ActivityDetails
+            activityId={activityId}
+            onCancel={() => setActivityId('')}
+            editMode={handleEditMode}
+          />
         )}
-        <ActivityForm
-          cancelEdit={() => setEditForm('')}
-          editActivityId={editForm}
-        />
+        {(editForm || createFormDisplay) && (
+          <ActivityForm
+            cancelEdit={() => {
+              setEditForm(''), setCreateFormDisplay(false);
+            }}
+            editActivityId={editForm}
+            createActivityMode={createFormDisplay}
+          />
+        )}
       </Grid.Column>
     </Grid>
   );
