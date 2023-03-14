@@ -1,9 +1,12 @@
 import React from 'react';
 import { Button, Container, Menu } from 'semantic-ui-react';
-interface Props {
-  onCreateClick: any;
-}
-const NavBar = ({ onCreateClick }: Props) => {
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../store/store';
+
+const NavBar = () => {
+  const {
+    activityStore: { setEditMode },
+  } = useStore();
   return (
     <Menu inverted fixed="top">
       <Container>
@@ -11,11 +14,7 @@ const NavBar = ({ onCreateClick }: Props) => {
         <Menu.Item>
           <Menu.Item name="Activities" />
           <Menu.Item>
-            <Button
-              positive
-              content="Create Activity"
-              onClick={() => onCreateClick(true)}
-            />
+            <Button positive content="Create Activity" onClick={setEditMode} />
           </Menu.Item>
         </Menu.Item>
       </Container>
@@ -23,4 +22,4 @@ const NavBar = ({ onCreateClick }: Props) => {
   );
 };
 
-export default NavBar;
+export default observer(NavBar);

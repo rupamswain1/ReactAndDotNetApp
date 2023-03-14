@@ -1,14 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
-import agent from '../../../app/api/agent';
+import { useStore } from '../../../app/store/store';
 import { Activity } from '../../../app/model/Activity';
-interface Props {
-  editActivityId: string;
-  cancelEdit: any;
-  createActivityMode: boolean;
-}
-const ActivityForm = ({ cancelEdit, editActivityId }: Props) => {
+import { observer } from 'mobx-react-lite';
+
+const ActivityForm = () => {
+  const {
+    activityStore: {
+      editMode,
+      cancelEditMode,
+      selectedActivity,
+      updateActivity,
+      createActivity,
+    },
+  } = useStore();
   const [activity, setActivity] = useState<Activity>({
     id: '',
     title: '',
@@ -19,47 +25,88 @@ const ActivityForm = ({ cancelEdit, editActivityId }: Props) => {
     venue: '',
   });
   useEffect(() => {
-    editActivityId &&
-      agent.Activities.details(editActivityId).then((res) => setActivity(res));
-  }, [editActivityId]);
-
+    if (selectedActivity) {
+      setActivity(selectedActivity);
+    } else {
+      setActivity({
+        id: '',
+        title: '',
+        category: '',
+        description: '',
+        date: '',
+        city: '',
+        venue: '',
+      });
+    }
+  }, [selectedActivity]);
   const handleChange = (e: any) => {
     setActivity((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(e.target.name, e.target.value);
   };
   return (
-    <Segment clearing>
-      <Form>
-        <Form.Input
-          placeholder="Title"
-          name="title"
-          value={activity.title}
-          onChange={(e) => handleChange(e)}
-        />
-        <Form.TextArea
-          placeholder="Description"
-          name="description"
-          value={activity.description}
-        />
-        <Form.Input placeholder="Category" value={activity.category} />
-        <Form.Input
-          placeholder="Date"
-          type="date"
-          name="date"
-          value={activity.date.split('T')[0]}
-        />
-        <Form.Input placeholder="City" name="city" value={activity.city} />
-        <Form.Input placeholder="Venue" name="venue" value={activity.venue} />
-        <Button floated="right" positive type="submit" content="Submit" />
-        <Button
-          floated="right"
-          type="button"
-          content="Cancel"
-          onClick={cancelEdit}
-        />
-      </Form>
-    </Segment>
+    <>
+      {editMode && (
+        <Segment clearing>
+          <Form>
+            <Form.Input
+              placeholder="Title"
+              name="title"
+              value={activity.title}
+              onChange={(e) => handleChange(e)}
+            />
+            <Form.TextArea
+              placeholder="Description"
+              name="description"
+              value={activity.description}
+              onChange={(e) => handleChange(e)}
+            />
+            <Form.Input
+              placeholder="Category"
+              value={activity.category}
+              name="category"
+              onChange={(e) => handleChange(e)}
+            />
+            <Form.Input
+              placeholder="Date"
+              type="date"
+              name="date"
+              value={activity.date.split('T')[0]}
+              onChange={(e) => handleChange(e)}
+            />
+            <Form.Input
+              placeholder="City"
+              name="city"
+              value={activity.city}
+              onChange={(e) => handleChange(e)}
+            />
+            <Form.Input
+              placeholder="Venue"
+              name="venue"
+              value={activity.venue}
+              onChange={(e) => handleChange(e)}
+            />
+            <Button
+              floated="right"
+              positive
+              type="submit"
+              content="Submit"
+              onClick={() =>
+                selectedActivity
+                  ? updateActivity(activity)
+                  : createActivity(activity)
+              }
+            />
+            <Button
+              floated="right"
+              type="button"
+              content="Cancel"
+              onClick={cancelEditMode}
+            />
+          </Form>
+        </Segment>
+      )}
+    </>
   );
 };
 
-export default ActivityForm;
+export default observer(ActivityForm);

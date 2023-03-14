@@ -1,36 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import reactLogo from './assets/react.svg';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Container, Header } from 'semantic-ui-react';
-import axios from 'axios';
-import List from 'semantic-ui-react/dist/commonjs/elements/List';
-import ListItem from 'semantic-ui-react/dist/commonjs/elements/List/ListItem';
+
 import { Activity } from '../model/Activity';
 import NavBar from './NavBar';
 import ActivityDashBoard from '../../feature/activities/dashboard/ActivityDashBoard';
 import agent from '../api/agent';
+import { useStore } from '../store/store';
+import { observer } from 'mobx-react-lite';
 
 function App() {
-  const [activity, setActivity] = useState<Activity[]>([]);
-  const [createFormDisplay, setCreateFormDisplay] = useState(false);
+  const { activityStore } = useStore();
+  const { loadActivities, activities } = activityStore;
   useEffect(() => {
-    agent.Activities.list().then((response) => {
-      setActivity(response);
-    });
-  }, []);
+    loadActivities();
+  }, [activityStore]);
   return (
     <div className="App">
-      <NavBar onCreateClick={setCreateFormDisplay} />
+      <NavBar />
       <Container style={{ marginTop: '7rem' }}>
-        <ActivityDashBoard
-          activities={activity}
-          createFormDisplay={createFormDisplay}
-          setCreateFormDisplay={setCreateFormDisplay}
-        />
+        <ActivityDashBoard activities={activities} />
       </Container>
     </div>
   );
 }
 
-export default App;
+export default observer(App);

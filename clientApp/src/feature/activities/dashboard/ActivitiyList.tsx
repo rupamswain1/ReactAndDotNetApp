@@ -1,13 +1,16 @@
 import React from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/model/Activity';
-
+import { useStore } from '../../../app/store/store';
+import { observer } from 'mobx-react-lite';
 interface Props {
   activities: Activity[];
-  setActivityId: any;
 }
 
-const ActivitiyList = ({ activities, setActivityId }: Props) => {
+const ActivitiyList = ({ activities }: Props) => {
+  const {
+    activityStore: { selectActivity, deleteActivity },
+  } = useStore();
   return (
     <>
       {activities ? (
@@ -31,8 +34,15 @@ const ActivitiyList = ({ activities, setActivityId }: Props) => {
                           floated="right"
                           content="View"
                           color="blue"
-                          onClick={() => setActivityId(id)}
+                          onClick={() => selectActivity(id)}
                         />
+                        <Button
+                          floated="right"
+                          content="Delete"
+                          color="red"
+                          onClick={() => deleteActivity(id)}
+                        />
+
                         <Label basic content={category} />
                       </Item.Extra>
                     </Item.Content>
@@ -49,4 +59,4 @@ const ActivitiyList = ({ activities, setActivityId }: Props) => {
   );
 };
 
-export default ActivitiyList;
+export default observer(ActivitiyList);

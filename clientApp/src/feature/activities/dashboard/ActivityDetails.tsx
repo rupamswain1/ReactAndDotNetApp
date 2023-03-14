@@ -3,48 +3,40 @@ import React, { useState, useEffect } from 'react';
 import { Button, Card, Icon, Image } from 'semantic-ui-react';
 import agent from '../../../app/api/agent';
 import { Activity } from '../../../app/model/Activity';
-interface Props {
-  activityId: string;
-  editMode: any;
-  onCancel: any;
-}
-const ActivityDetails = ({ activityId, editMode, onCancel }: Props) => {
-  const [activity, setActivity] = useState<Activity | null>(null);
-  useEffect(() => {
-    agent.Activities.details(activityId).then((res) => setActivity(res));
-    // axios
-    //   .get(`http://localhost:5000/api/Activities/${activityId}`)
-    //   .then((res) => setActivity(res.data));
-  }, [activityId]);
+import { useStore } from '../../../app/store/store';
+import { observer } from 'mobx-react-lite';
 
-  const handleCancel = () => {
-    setActivity(null), onCancel();
-  };
+const ActivityDetails = () => {
+  const {
+    activityStore: {
+      cancelActivityView,
+      setEditMode,
+      selectedActivity,
+      activityViewMode,
+    },
+  } = useStore();
+  useEffect(() => {}, []);
+
   return (
     <>
-      {activity && (
+      {selectedActivity && activityViewMode && (
         <Card fluid>
           <Image src="https://source.unsplash.com/featured/300x201" />
           <Card.Content>
-            <Card.Header>{activity.title}</Card.Header>
+            <Card.Header>{selectedActivity.title}</Card.Header>
             <Card.Meta>
-              <span className="date">{activity.date}</span>
+              <span className="date">{selectedActivity.date}</span>
             </Card.Meta>
-            <Card.Description>{activity.description}</Card.Description>
+            <Card.Description>{selectedActivity.description}</Card.Description>
           </Card.Content>
           <Card.Content extra>
             <Button.Group widths="2">
-              <Button
-                basic
-                color="blue"
-                content="Edit"
-                onClick={() => editMode(activity.id)}
-              />
+              <Button basic color="blue" content="Edit" onClick={setEditMode} />
               <Button
                 basic
                 color="grey"
                 content="Cancel"
-                onClick={handleCancel}
+                onClick={cancelActivityView}
               />
             </Button.Group>
           </Card.Content>
@@ -54,4 +46,4 @@ const ActivityDetails = ({ activityId, editMode, onCancel }: Props) => {
   );
 };
 
-export default ActivityDetails;
+export default observer(ActivityDetails);
