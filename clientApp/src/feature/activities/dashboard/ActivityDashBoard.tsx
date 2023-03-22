@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Grid, List, ListItem } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Activity } from '../../../app/model/Activity';
@@ -6,11 +6,13 @@ import ActivityForm from '../form/ActivityForm';
 import ActivitiyList from './ActivitiyList';
 import ActivityDetails from './ActivityDetails';
 import { useStore } from '../../../app/store/store';
-interface Props {
-  activities: Activity[];
-}
 
-const ActivityDashBoard = ({ activities }: Props) => {
+const ActivityDashBoard = () => {
+  const { activityStore } = useStore();
+  const { loadActivities, activities } = activityStore;
+  useEffect(() => {
+    loadActivities();
+  }, [activityStore]);
   return (
     <Grid>
       <Grid.Column width="10">

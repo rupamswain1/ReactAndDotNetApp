@@ -3,6 +3,7 @@ import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { Activity } from '../../../app/model/Activity';
 import { useStore } from '../../../app/store/store';
 import { observer } from 'mobx-react-lite';
+import { NavLink } from 'react-router-dom';
 interface Props {
   activities: Activity[];
 }
@@ -34,7 +35,9 @@ const ActivitiyList = ({ activities }: Props) => {
                           floated="right"
                           content="View"
                           color="blue"
-                          onClick={() => selectActivity(id)}
+                          // onClick={() => selectActivity(id)}
+                          as={NavLink}
+                          to={`${id}`}
                         />
                         <Button
                           floated="right"
