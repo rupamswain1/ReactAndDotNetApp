@@ -42,17 +42,32 @@ export default class ActivityStore{
        this.editMode=false;
     }
     updateActivity=async(activity:Activity)=>{
-        await agent.Activities.update(activity);
-        this.loadActivities()
-        this.selectedActivity=null;
-        this.editMode=false;
+        try{
+            this.editMode=true
+            await agent.Activities.update(activity);
+            this.loadActivities()
+            this.selectedActivity=null;
+            this.editMode=false;
+        }
+        catch(e){
+            console.log(e);
+
+        }
 
     }
     createActivity=async(activity:Activity)=>{
-        const newActivity:NewActivity=activity;
-        delete newActivity.id;
-        await agent.Activities.create(newActivity);
-        this.loadActivities()
+        try{
+            this.editMode=true
+            const newActivity:NewActivity=activity;
+            delete newActivity.id;
+            await agent.Activities.create(newActivity);
+            this.loadActivities()
+            this.editMode=false;
+        }
+        catch(e){
+            console.log(e)
+        }
+        
     }
     deleteActivity=async(id:string)=>{
         await agent.Activities.delete(id);

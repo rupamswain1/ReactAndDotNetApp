@@ -1,21 +1,25 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { Button, Card, Icon, Image } from 'semantic-ui-react';
-import agent from '../../../app/api/agent';
-import { Activity } from '../../../app/model/Activity';
+import { useEffect } from 'react';
+import { Button, Card, Image } from 'semantic-ui-react';
 import { useStore } from '../../../app/store/store';
 import { observer } from 'mobx-react-lite';
-
+import { NavLink, useParams } from 'react-router-dom';
 const ActivityDetails = () => {
   const {
     activityStore: {
       cancelActivityView,
       setEditMode,
       selectedActivity,
+      selectActivity,
       activityViewMode,
     },
   } = useStore();
-  useEffect(() => {}, []);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      selectActivity(id);
+    }
+  }, [id]);
 
   return (
     <>
@@ -31,7 +35,14 @@ const ActivityDetails = () => {
           </Card.Content>
           <Card.Content extra>
             <Button.Group widths="2">
-              <Button basic color="blue" content="Edit" onClick={setEditMode} />
+              <Button
+                basic
+                color="blue"
+                content="Edit"
+                // onClick={setEditMode}
+                as={NavLink}
+                to={`/editActivity/${id}`}
+              />
               <Button
                 basic
                 color="grey"

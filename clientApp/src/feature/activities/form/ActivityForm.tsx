@@ -4,10 +4,11 @@ import { Button, Form, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/store/store';
 import { Activity } from '../../../app/model/Activity';
 import { observer } from 'mobx-react-lite';
-import { useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 const ActivityForm = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const {
     activityStore: {
       editMode,
@@ -28,7 +29,11 @@ const ActivityForm = () => {
     venue: '',
   });
   useEffect(() => {
-    if (id) selectActivity(id);
+    if (id) {
+      if (selectedActivity && selectedActivity?.id === id) {
+        selectActivity(id);
+      }
+    }
   }, [id]);
   useEffect(() => {
     if (selectedActivity && id) {
@@ -48,6 +53,10 @@ const ActivityForm = () => {
   const handleChange = (e: any) => {
     setActivity((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(e.target.name, e.target.value);
+  };
+  const handleSubmit = () => {
+    id ? updateActivity(activity) : createActivity(activity);
+    !editMode && navigate(-1);
   };
   return (
     <>
@@ -95,11 +104,7 @@ const ActivityForm = () => {
             positive
             type="submit"
             content="Submit"
-            onClick={() =>
-              selectedActivity
-                ? updateActivity(activity)
-                : createActivity(activity)
-            }
+            onClick={handleSubmit}
           />
           <Button
             floated="right"
