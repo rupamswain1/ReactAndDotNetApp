@@ -18,11 +18,11 @@ const ActivityDashBoard = () => {
       <Grid.Column width="10">
         <ActivitiyList activities={activities} />
       </Grid.Column>
-      <Grid.Column width="6">
+      {/* <Grid.Column width="6">
         <ActivityDetails />
 
         <ActivityForm />
-      </Grid.Column>
+      </Grid.Column> */}
     </Grid>
   );
 };
