@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
-import { Button, Card, Image } from 'semantic-ui-react';
+import { Button, Card, Grid, GridColumn, Image } from 'semantic-ui-react';
 import { useStore } from '../../../app/store/store';
 import { observer } from 'mobx-react-lite';
 import { NavLink, useParams } from 'react-router-dom';
+import ActivityDetailedHeader from './ActivityDetailedHeader';
+import ActivityDetailedinfo from './ActivityDetailedinfo';
+import ActivityDetailedChats from './ActivityDetailedChats';
+import ActivityDetailedSidebar from './ActivityDetailedSidebar';
 const ActivityDetails = () => {
   const {
     activityStore: {
@@ -23,7 +27,17 @@ const ActivityDetails = () => {
 
   return (
     <>
-      {selectedActivity && activityViewMode && (
+      <Grid>
+        <Grid.Column width={10}>
+          <ActivityDetailedHeader />
+          <ActivityDetailedinfo />
+          <ActivityDetailedChats />
+        </Grid.Column>
+        <GridColumn width={6}>
+          <ActivityDetailedSidebar />
+        </GridColumn>
+      </Grid>
+      {/* {selectedActivity && activityViewMode && (
         <Card fluid>
           <Image src="https://source.unsplash.com/featured/300x201" />
           <Card.Content>
@@ -52,7 +66,7 @@ const ActivityDetails = () => {
             </Button.Group>
           </Card.Content>
         </Card>
-      )}
+      )} */}
     </>
   );
 };

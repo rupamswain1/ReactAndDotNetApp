@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Activity } from '../../../app/model/Activity';
 import ActivityForm from '../form/ActivityForm';
 import ActivitiyList from './ActivitiyList';
-import ActivityDetails from './ActivityDetails';
+import ActivityDetails from '../details/ActivityDetails';
 import { useStore } from '../../../app/store/store';
 
 const ActivityDashBoard = () => {
