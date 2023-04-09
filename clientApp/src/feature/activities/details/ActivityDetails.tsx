@@ -27,16 +27,18 @@ const ActivityDetails = () => {
 
   return (
     <>
-      <Grid>
-        <Grid.Column width={10}>
-          <ActivityDetailedHeader />
-          <ActivityDetailedinfo />
-          <ActivityDetailedChats />
-        </Grid.Column>
-        <GridColumn width={6}>
-          <ActivityDetailedSidebar />
-        </GridColumn>
-      </Grid>
+      {selectedActivity ? (
+        <Grid>
+          <Grid.Column width={10}>
+            <ActivityDetailedHeader activity={selectedActivity} />
+            <ActivityDetailedinfo activity={selectedActivity} />
+            <ActivityDetailedChats />
+          </Grid.Column>
+          <GridColumn width={6}>
+            <ActivityDetailedSidebar />
+          </GridColumn>
+        </Grid>
+      ) : null}
       {/* {selectedActivity && activityViewMode && (
         <Card fluid>
           <Image src="https://source.unsplash.com/featured/300x201" />

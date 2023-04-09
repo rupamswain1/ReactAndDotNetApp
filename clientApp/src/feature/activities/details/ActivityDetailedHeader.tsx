@@ -1,7 +1,61 @@
 import React from 'react';
+import { Activity } from '../../../app/model/Activity';
+import { observer } from 'mobx-react-lite';
+import { Button, Header, Image, Item, Segment } from 'semantic-ui-react';
 
-const ActivityDetailedHeader = () => {
-  return <div>ActivityDetailedHeader</div>;
+const activityImageStyle = {
+  filter: 'brightness(30%)',
 };
 
-export default ActivityDetailedHeader;
+const activityImageTextStyle = {
+  position: 'absolute',
+  bottom: '5%',
+  left: '5%',
+  width: '100%',
+  height: 'auto',
+  color: 'white',
+};
+
+interface Props {
+  activity: Activity;
+}
+
+const ActivityDetailedHeader = ({ activity }: Props) => {
+  return (
+    <Segment.Group>
+      <Segment basic attached="top" style={{ padding: '0' }}>
+        <Image
+          src={'https://source.unsplash.com/featured/300x201'}
+          fluid
+          style={activityImageStyle}
+        />
+        <Segment style={activityImageTextStyle} basic>
+          <Item.Group>
+            <Item>
+              <Item.Content>
+                <Header
+                  size="huge"
+                  content={activity.title}
+                  style={{ color: 'white' }}
+                />
+                <p>{activity.date}</p>
+                <p>
+                  Hosted by <strong>Bob</strong>
+                </p>
+              </Item.Content>
+            </Item>
+          </Item.Group>
+        </Segment>
+      </Segment>
+      <Segment clearing attached="bottom">
+        <Button color="teal">Join Activity</Button>
+        <Button>Cancel attendance</Button>
+        <Button color="orange" floated="right">
+          Manage Event
+        </Button>
+      </Segment>
+    </Segment.Group>
+  );
+};
+
+export default observer(ActivityDetailedHeader);
