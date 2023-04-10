@@ -6,6 +6,7 @@ import ActivityForm from '../form/ActivityForm';
 import ActivitiyList from './ActivitiyList';
 import ActivityDetails from '../details/ActivityDetails';
 import { useStore } from '../../../app/store/store';
+import ActivityFilters from './ActivityFilters';
 
 const ActivityDashBoard = () => {
   const { activityStore } = useStore();
@@ -17,6 +18,9 @@ const ActivityDashBoard = () => {
     <Grid>
       <Grid.Column width="10">
         <ActivitiyList activities={activities} />
+      </Grid.Column>
+      <Grid.Column width="6">
+        <ActivityFilters />
       </Grid.Column>
       {/* <Grid.Column width="6">
         <ActivityDetails />
