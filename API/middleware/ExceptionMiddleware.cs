@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net
+using System.Net;
+using Application.Core;
+using System.Text.Json;
 
 namespace API.middleware
 {
@@ -15,7 +17,7 @@ namespace API.middleware
         {
             _next = next;
             _logger = logger;
-            _next = next;
+            _env = env;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -34,13 +36,12 @@ namespace API.middleware
                     ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
                     : new AppException(context.Response.StatusCode, "Internal server error");
 
-                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNaminfPolicy.caelCase;
-            }
-            await context.response.WriteAsync(json)}
-    }
-    var json = new jsonSerializer..Serialize(ResponseCachingExtensions, options);
-}
-        }
+                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    
+                var json = JsonSerializer.Serialize(response, options);
+                await context.Response.WriteAsync(json);
+            }
+
+        }
+    }
 }
