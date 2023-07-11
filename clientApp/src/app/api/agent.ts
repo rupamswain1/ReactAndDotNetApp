@@ -1,9 +1,36 @@
-import axios,{AxiosResponse} from "axios";
+import axios,{AxiosError, AxiosResponse} from "axios";
 import { Activity, NewActivity } from "../model/Activity";
-
+import { toast } from 'react-toastify';
 axios.defaults.baseURL="http://localhost:5000/api";
 
 const responseBody=<T>(response:AxiosResponse<T>)=>response.data;
+
+axios.interceptors.response.use(async response=>{
+    await sleep(1000);
+    return response
+},(error:AxiosError)=>{
+    const {data,status} = error.response!;
+    switch(status){
+        case 400:
+            toast.error('bad request');
+            break;
+        case 401:
+            toast.error('unauthorised');
+            break;
+        case 403:
+            toast.error('forbidden');
+            break;
+        case 404:
+            toast.error('not found');
+            break;
+        case 500:
+            toast.error('server error');
+            break;
+        default:
+            break;
+    }
+    return Promise.reject(error);
+})
 
 const requests={
     get:<T>(url:string)=>axios.get<T>(url).then(responseBody),

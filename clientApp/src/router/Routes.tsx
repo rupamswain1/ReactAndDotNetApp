@@ -4,6 +4,7 @@ import ActivityDashBoard from '../feature/activities/dashboard/ActivityDashBoard
 import ActivityDetails from '../feature/activities/details/ActivityDetails';
 import ActivityForm from '../feature/activities/form/ActivityForm';
 import HomePage from '../feature/home/HomePage';
+import { TestErrors } from '../feature/errors/TestErrors';
 
 export const routes: RouteObject[] = [
   {
@@ -15,6 +16,7 @@ export const routes: RouteObject[] = [
       { path: 'activities', element: <ActivityDashBoard /> },
       { path: 'editActivity/:id', element: <ActivityForm /> },
       { path: 'createActivity', element: <ActivityForm /> },
+      { path: 'errors', element: <TestErrors /> },
     ],
   },
 ];
