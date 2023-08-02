@@ -23,6 +23,7 @@ namespace Application.Activities
             public async Task<Results<Activity>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var data = await _context.Activities.FindAsync(request.Id);
+                if (data == null) return null;
                 return Results<Activity>.Success(data);
             }
         }
