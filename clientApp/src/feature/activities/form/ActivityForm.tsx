@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/store/store';
 import { Activity } from '../../../app/model/Activity';
 import { observer } from 'mobx-react-lite';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
+import { values } from 'mobx';
 
 const ActivityForm = () => {
   const { id } = useParams();
@@ -54,65 +56,36 @@ const ActivityForm = () => {
     setActivity((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     console.log(e.target.name, e.target.value);
   };
-  const handleSubmit = () => {
-    id ? updateActivity(activity) : createActivity(activity);
-    !editMode && navigate(-1);
-  };
+  // const handleSubmit = () => {
+  //   id ? updateActivity(activity) : createActivity(activity);
+  //   !editMode && navigate(-1);
+  // };
   return (
     <>
       <Segment clearing>
-        <Form>
-          <Form.Input
-            placeholder="Title"
-            name="title"
-            value={activity.title}
-            onChange={(e) => handleChange(e)}
-          />
-          <Form.TextArea
-            placeholder="Description"
-            name="description"
-            value={activity.description}
-            onChange={(e) => handleChange(e)}
-          />
-          <Form.Input
-            placeholder="Category"
-            value={activity.category}
-            name="category"
-            onChange={(e) => handleChange(e)}
-          />
-          <Form.Input
-            placeholder="Date"
-            type="date"
-            name="date"
-            value={activity.date.split('T')[0]}
-            onChange={(e) => handleChange(e)}
-          />
-          <Form.Input
-            placeholder="City"
-            name="city"
-            value={activity.city}
-            onChange={(e) => handleChange(e)}
-          />
-          <Form.Input
-            placeholder="Venue"
-            name="venue"
-            value={activity.venue}
-            onChange={(e) => handleChange(e)}
-          />
-          <Button
-            floated="right"
-            positive
-            type="submit"
-            content="Submit"
-            onClick={handleSubmit}
-          />
-          <Button
-            floated="right"
-            type="button"
-            content="Cancel"
-            onClick={cancelEditMode}
-          />
-        </Form>
+        <Formik
+          enableReinitialize
+          initialValues={activity}
+          onSubmit={(values) => console.log(values)}
+        >
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit} className="ui form">
+              <Field placeholder="Title" name="title" />
+              <Field placeholder="Description" name="description" />
+              <Field placeholder="Category" name="category" />
+              <Field placeholder="Date" type="date" name="date" />
+              <Field placeholder="City" name="city" />
+              <Field placeholder="Venue" name="venue" />
+              <Button floated="right" positive type="submit" content="Submit" />
+              <Button
+                floated="right"
+                type="button"
+                content="Cancel"
+                onClick={cancelEditMode}
+              />
+            </Form>
+          )}
+        </Formik>
       </Segment>
     </>
   );
