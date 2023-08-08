@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { values } from 'mobx';
+import MyTextInput from '../../../app/common/form/MyTextInput';
 
 const ActivityForm = () => {
   const { id } = useParams();
@@ -34,6 +35,11 @@ const ActivityForm = () => {
 
   const validationSchema = Yup.object({
     title: Yup.string().required('The Activity Title is required'),
+    description: Yup.string().required('The Activity Description is required'),
+    category: Yup.string().required(),
+    date: Yup.string().required(),
+    venue: Yup.string().required(),
+    city: Yup.string().required(),
   });
 
   useEffect(() => {
@@ -77,21 +83,13 @@ const ActivityForm = () => {
         >
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit} className="ui form">
-              <FormField>
-                <Field placeholder="Title" name="title" />
-                <ErrorMessage
-                  name="title"
-                  render={(error) => (
-                    <Label basic color="red" content={error} />
-                  )}
-                />
-              </FormField>
+              <MyTextInput name="title" placeholder="Title" />
 
-              <Field placeholder="Description" name="description" />
-              <Field placeholder="Category" name="category" />
-              <Field placeholder="Date" type="date" name="date" />
-              <Field placeholder="City" name="city" />
-              <Field placeholder="Venue" name="venue" />
+              <MyTextInput placeholder="Description" name="description" />
+              <MyTextInput placeholder="Category" name="category" />
+              <MyTextInput placeholder="Date" type="date" name="date" />
+              <MyTextInput placeholder="City" name="city" />
+              <MyTextInput placeholder="Venue" name="venue" />
               <Button floated="right" positive type="submit" content="Submit" />
               <Button
                 floated="right"
