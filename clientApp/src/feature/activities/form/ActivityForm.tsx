@@ -9,6 +9,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { values } from 'mobx';
 import MyTextInput from '../../../app/common/form/MyTextInput';
+import MytextArea from '../../../app/common/form/MyTextArea';
+import MySelectInput from '../../../app/common/form/MySelectInput';
+import { categoryOptions } from '../../../app/common/options/categoryOptions';
 
 const ActivityForm = () => {
   const { id } = useParams();
@@ -85,8 +88,16 @@ const ActivityForm = () => {
             <Form onSubmit={handleSubmit} className="ui form">
               <MyTextInput name="title" placeholder="Title" />
 
-              <MyTextInput placeholder="Description" name="description" />
-              <MyTextInput placeholder="Category" name="category" />
+              <MytextArea
+                rows={3}
+                placeholder="Description"
+                name="description"
+              />
+              <MySelectInput
+                options={categoryOptions}
+                placeholder="Category"
+                name="category"
+              />
               <MyTextInput placeholder="Date" type="date" name="date" />
               <MyTextInput placeholder="City" name="city" />
               <MyTextInput placeholder="Venue" name="venue" />
