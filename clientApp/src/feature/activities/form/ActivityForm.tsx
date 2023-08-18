@@ -12,6 +12,7 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 import MytextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryOptions } from '../../../app/common/options/categoryOptions';
+import MyDateInput from '../../../app/common/form/MyDateInput';
 
 const ActivityForm = () => {
   const { id } = useParams();
@@ -98,7 +99,13 @@ const ActivityForm = () => {
                 placeholder="Category"
                 name="category"
               />
-              <MyTextInput placeholder="Date" type="date" name="date" />
+              <MyDateInput
+                placeholderText="Date"
+                name="date"
+                showTimeSelect
+                timeCaption="time"
+                dateFormat={'MMM d, yyyy h:mm aa'}
+              />
               <MyTextInput placeholder="City" name="city" />
               <MyTextInput placeholder="Venue" name="venue" />
               <Button floated="right" positive type="submit" content="Submit" />
