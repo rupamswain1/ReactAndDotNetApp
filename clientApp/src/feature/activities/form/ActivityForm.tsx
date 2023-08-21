@@ -25,6 +25,7 @@ const ActivityForm = () => {
       updateActivity,
       createActivity,
       selectActivity,
+      loadActivity,
     },
   } = useStore();
   const [activity, setActivity] = useState<Activity>({
@@ -32,7 +33,7 @@ const ActivityForm = () => {
     title: '',
     category: '',
     description: '',
-    date: '',
+    date: null,
     city: '',
     venue: '',
   });
@@ -47,11 +48,7 @@ const ActivityForm = () => {
   });
 
   useEffect(() => {
-    if (id) {
-      if (selectedActivity && selectedActivity?.id === id) {
-        selectActivity(id);
-      }
-    }
+    if (id) loadActivity(id).then((activity) => setActivity(activity));
   }, [id]);
   useEffect(() => {
     if (selectedActivity && id) {

@@ -1,95 +1,127 @@
-import { makeAutoObservable, makeObservable, observable, runInAction} from "mobx";
+import { makeAutoObservable, runInAction } from 'mobx';
+import { Activity } from '../model/Activity';
+import agent from '../api/agent';
+import { v4 as uuid } from 'uuid';
+export default class ActivityStore {
+  activityRegistry = new Map<string, Activity>();
+  selectedActivity?: Activity = undefined;
+  editMode = false;
+  loading = false;
+  loadingInitial = false;
+  constructor() {
+    makeAutoObservable(this);
+  }
+  get groupedActivities() {
+    return Object.entries(
+      this.activitiesByDate.reduce((activities, activity) => {
+        const date = activity.date!.toISOString().split('T')[0];
+        activities[date] = activities[date]
+          ? [...activities[date], activity]
+          : [activity];
+        return activities;
+      }, {} as { [key: string]: Activity[] })
+    );
+  }
 
-import agent from "../api/agent";
-import { Activity, NewActivity } from "../model/Activity";
+  get activitiesByDate() {
+    return Array.from(this.activityRegistry.values()).sort(
+      (a, b) => a.date!.getTime() - b.date!.getTime()
+    );
+  }
 
-export default class ActivityStore{
-    activities:Activity[]=[];
-    selectedActivity:Activity|null=null;
-    editMode=false;
-    activityViewMode=false;
-    loading=false;
-    loadingInitial=false;
-    createForm=false;
-    constructor(){
-       makeAutoObservable(this);
+  loadActivities = async () => {
+    this.setLoadingInitial(true);
+    try {
+      const activities = await agent.Activities.list();
+      activities.forEach((activity) => {
+        this.setActivity(activity);
+      });
+      this.setLoadingInitial(false);
+    } catch (error) {
+      console.log(error);
+      this.setLoadingInitial(false);
     }
-    get groupActivityByDate(){
-        const groupedActivity=this.activities.reduce((activities,activity)=>{
-            const date=activity.date;
-            activities[date]=activities[date]?[...activities[date],activity]:[activity];
-            return activities;
-        }, {} as {[key:string]:Activity[]})
-        
-        return Object.entries(groupedActivity);
-    }
-    loadActivities=async()=>{
-        this.setLoadingInitial(true)
-        try{
-            runInAction(async()=>{
-                this.activities=await agent.Activities.list();
-                this.setLoadingInitial(false)
-            })
-            ;
-        }
-        catch(err){
-            console.log(err);
-            runInAction(()=>{
-                this.setLoadingInitial(false)
-            })
-           
-        }
-    }
+  };
 
-    setLoadingInitial=(state:boolean)=>{
-        this.loadingInitial=state;
+  loadActivity = async (id: string) => {
+    let activity = this.getActivity(id);
+    if (activity) {
+      this.selectedActivity = activity;
+      return activity;
+    } else {
+      this.setLoadingInitial(true);
+      try {
+        activity = await agent.Activities.details(id);
+        this.setActivity(activity);
+        runInAction(() => (this.selectedActivity = activity));
+        this.setLoadingInitial(false);
+        return activity;
+      } catch (error) {
+        console.log(error);
+        this.setLoadingInitial(false);
+      }
     }
-  
-    selectActivity=async (id:string)=>{
-       await agent.Activities.details(id).then(res=>{this.selectedActivity=res; this.activityViewMode=true});
-       this.editMode=false;
-    }
-    updateActivity=async(activity:Activity)=>{
-        try{
-            this.editMode=true
-            await agent.Activities.update(activity);
-            this.loadActivities()
-            this.selectedActivity=null;
-            this.editMode=false;
-        }
-        catch(e){
-            console.log(e);
+  };
 
-        }
+  private setActivity = (activity: Activity) => {
+    activity.date = new Date(activity.date!);
+    this.activityRegistry.set(activity.id, activity);
+  };
 
+  private getActivity = (id: string) => {
+    return this.activityRegistry.get(id);
+  };
+
+  setLoadingInitial = (state: boolean) => {
+    this.loadingInitial = state;
+  };
+
+  createActivity = async (activity: Activity) => {
+    this.loading = true;
+    activity.id = uuid();
+    try {
+      await agent.Activities.create(activity);
+      runInAction(() => {
+        this.activityRegistry.set(activity.id, activity);
+        this.selectedActivity = activity;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => (this.loading = false));
     }
-    createActivity=async(activity:Activity)=>{
-        try{
-            this.editMode=true
-            const newActivity:NewActivity=activity;
-            delete newActivity.id;
-            await agent.Activities.create(newActivity);
-            this.loadActivities()
-            this.editMode=false;
-        }
-        catch(e){
-            console.log(e)
-        }
-        
+  };
+
+  updateActivity = async (activity: Activity) => {
+    this.loading = true;
+    try {
+      await agent.Activities.update(activity);
+      runInAction(() => {
+        this.activityRegistry.set(activity.id, activity);
+        this.selectedActivity = activity;
+        this.editMode = false;
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => (this.loading = false));
     }
-    deleteActivity=async(id:string)=>{
-        await agent.Activities.delete(id);
-        this.loadActivities()
+  };
+
+  deleteActivity = async (id: string) => {
+    this.loading = true;
+    try {
+      await agent.Activities.delete(id);
+      runInAction(() => {
+        this.activityRegistry.delete(id);
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => {
+        this.loading = false;
+      });
     }
-    cancelActivityView=()=>{
-        this.selectedActivity=null;
-    }
-    setEditMode=()=>{
-        this.editMode=true;
-        this.activityViewMode=false;
-    }
-    cancelEditMode=()=>{
-        this.editMode=false;
-        this.selectedActivity=null;
-    }
+  };
 }
