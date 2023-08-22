@@ -1,76 +1,39 @@
-import { useEffect } from 'react';
-import { Button, Card, Grid, GridColumn, Image } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { useStore } from '../../../app/store/store';
 import { observer } from 'mobx-react-lite';
-import { NavLink, useParams } from 'react-router-dom';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import ActivityDetailedChats from './ActivityDetailedChats';
 import ActivityDetailedHeader from './ActivityDetailedHeader';
 import ActivityDetailedinfo from './ActivityDetailedinfo';
-import ActivityDetailedChats from './ActivityDetailedChats';
 import ActivityDetailedSidebar from './ActivityDetailedSidebar';
-const ActivityDetails = () => {
+
+export default observer(function ActivityDetails() {
+  const { activityStore } = useStore();
   const {
-    activityStore: {
-      cancelActivityView,
-      setEditMode,
-      selectedActivity,
-      selectActivity,
-      activityViewMode,
-    },
-  } = useStore();
+    selectedActivity: activity,
+    loadActivity,
+    loadingInitial,
+  } = activityStore;
   const { id } = useParams();
 
   useEffect(() => {
-    if (id) {
-      selectActivity(id);
-    }
-  }, [id]);
+    if (id) loadActivity(id);
+  }, [id, loadActivity]);
+
+  if (loadingInitial || !activity) return <LoadingComponent />;
 
   return (
-    <>
-      {selectedActivity ? (
-        <Grid>
-          <Grid.Column width={10}>
-            <ActivityDetailedHeader activity={selectedActivity} />
-            <ActivityDetailedinfo activity={selectedActivity} />
-            <ActivityDetailedChats />
-          </Grid.Column>
-          <GridColumn width={6}>
-            <ActivityDetailedSidebar />
-          </GridColumn>
-        </Grid>
-      ) : null}
-      {/* {selectedActivity && activityViewMode && (
-        <Card fluid>
-          <Image src="https://source.unsplash.com/featured/300x201" />
-          <Card.Content>
-            <Card.Header>{selectedActivity.title}</Card.Header>
-            <Card.Meta>
-              <span className="date">{selectedActivity.date}</span>
-            </Card.Meta>
-            <Card.Description>{selectedActivity.description}</Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <Button.Group widths="2">
-              <Button
-                basic
-                color="blue"
-                content="Edit"
-                // onClick={setEditMode}
-                as={NavLink}
-                to={`/editActivity/${id}`}
-              />
-              <Button
-                basic
-                color="grey"
-                content="Cancel"
-                onClick={cancelActivityView}
-              />
-            </Button.Group>
-          </Card.Content>
-        </Card>
-      )} */}
-    </>
+    <Grid>
+      <Grid.Column width="10">
+        <ActivityDetailedHeader activity={activity} />
+        <ActivityDetailedInfo activity={activity} />
+        <ActivityDetailedChat />
+      </Grid.Column>
+      <Grid.Column width="6">
+        <ActivityDetailedSidebar />
+      </Grid.Column>
+    </Grid>
   );
-};
-
-export default observer(ActivityDetails);
+});
