@@ -2,7 +2,8 @@ using API.Extensions;
 using API.middleware;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-
+using Microsoft.AspNetCore.Identity;
+using Domain;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -32,8 +33,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     context.Database.MigrateAsync();
-    await Seed.SeedData(context);
+    await Seed.SeedData(context, userManager);
 
 }
 catch (Exception ex)
